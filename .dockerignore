@@ -1,0 +1,11 @@
+migrate.sh
+.git
+.gitignore
+Makefile
+sqlc.yaml
+Dockerfile
+docker-compose.yml
+Dockerfile.multistage
+
+# .env
+#  SHOULD .env be ignored ??

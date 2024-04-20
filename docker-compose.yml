@@ -1,0 +1,56 @@
+version: '3.9'
+services:
+  backend_server:
+    container_name: backend_server
+    image: silverl/tnvisual_backend:0.0.2
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: "host=backend_database user=postgres password=postgres dbname=postgres sslmode=disable"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - backend_database
+    networks:
+      - backend
+
+  backend_database:
+    container_name: backend_database
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "15432:5432"
+    volumes:
+      - pgdata:/var/lib/postgres/data
+    networks:
+      - backend
+
+  # test_database:
+  #   container_name: test_database
+  #   image: postgres:latest
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_PASSWORD: test
+  #     POSTGRES_USER: test
+  #     POSTGRES_DB: test
+  #   ports:
+  #     - "25432:5432"
+  #   volumes:
+  #     - testdata:/var/lib/postgres/data
+  #   networks:
+  #     - backend
+
+volumes:
+  pgdata:
+    name: backend_data
+  testdata:
+    name: test_data
+
+networks:
+  backend:

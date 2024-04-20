@@ -1,0 +1,6 @@
+migrate.sh
+.env
+/database
+Makefile
+internal/api/foohandler.go
+internal/api/tests/foohandler*
