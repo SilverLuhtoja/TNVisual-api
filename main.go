@@ -45,6 +45,6 @@ func main() {
 		ReadTimeout: 5 * time.Second,
 	}
 
-	log.Printf("Server running on: http://localhost%s/\n", server.Addr)
+	log.Printf("Server  running on: http://localhost%s/\n", server.Addr)
 	log.Fatal(server.ListenAndServe())
 }
