@@ -10,41 +10,65 @@ import (
 	"testing"
 
 	"github.com/SilverLuhtoja/TNVisual/internal/api"
+	"github.com/SilverLuhtoja/TNVisual/internal/models"
 	"github.com/SilverLuhtoja/TNVisual/internal/test_utils"
-	"github.com/stretchr/testify/assert"
-
 	_ "github.com/lib/pq"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCreateUserHandler(t *testing.T) {
-	t.Run("Throws decoding error when request has no body", func(t *testing.T) {
-		config := test_utils.CreateTestConfig()
-		server := httptest.NewServer(http.HandlerFunc(config.CreateUserHandler))
+	config := test_utils.CreateTestConfig()
+	server := httptest.NewServer(http.HandlerFunc(config.CreateUserHandler))
 
+	var USERNAME string = "karu"
+	var PASSWORD string = "ott"
+
+	t.Run("Should succeed", func(t *testing.T) {
+		// ARRANGE
+		var params api.CreateUserRequest = api.CreateUserRequest{
+			Username: USERNAME,
+			Password: PASSWORD,
+		}
+
+		// ACT
+		bodyReq, _ := json.Marshal(params)
+		resp, err := http.Post(server.URL, "", bytes.NewBuffer(bodyReq))
+		if err != nil {
+			t.Error(err)
+		}
+		defer resp.Body.Close()
+
+		responseBody := test_utils.GetParamsFromResponseBody(models.User{}, resp)
+
+		// ASSERT
+		assert.Equal(t, 201, resp.StatusCode)
+		assert.Equal(t, responseBody.Username, USERNAME)
+
+		test_utils.ClearTable("users")
+	})
+
+	t.Run("Throws decoding error when bad request body", func(t *testing.T) {
 		resp, err := http.Post(server.URL, "", bytes.NewBuffer([]byte("")))
 		if err != nil {
 			t.Error(err)
 		}
 		defer resp.Body.Close()
 
-		assert.Equal(t, resp.StatusCode, 500)
+		assert.Equal(t, 400, resp.StatusCode)
 		assert.Equal(t, `{"error":"createUserHandler - couldn't decode parameters"}`, getBodyString(t, resp))
 	})
 
 	t.Run("Throws duplicate error when username already present", func(t *testing.T) {
-		config := test_utils.CreateTestConfig()
-		server := httptest.NewServer(http.HandlerFunc(config.CreateUserHandler))
-
-		// set up expectations
-		params := api.CreateUserRequest{
-			Username: "s2",
-			Password: "p2",
+		// ARRANGE
+		var params api.CreateUserRequest = api.CreateUserRequest{
+			Username: USERNAME,
+			Password: PASSWORD,
 		}
+		test_utils.InsertData("users", []string{"username", "password"}, []string{USERNAME, PASSWORD})
 
 		// ACT
 		bodyReq, _ := json.Marshal(params)
 		resp, err := http.Post(server.URL, "", bytes.NewBuffer(bodyReq))
-		http.Post(server.URL, "", bytes.NewBuffer(bodyReq))
 		if err != nil {
 			t.Error(err)
 		}
@@ -56,6 +80,7 @@ func TestCreateUserHandler(t *testing.T) {
 
 		test_utils.ClearTable("users")
 	})
+
 }
 
 func getBodyString(t *testing.T, resp *http.Response) string {
