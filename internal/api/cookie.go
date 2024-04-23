@@ -1,20 +1,22 @@
 package api
 
 import (
-	"errors"
+	"fmt"
 	"net/http"
+	"strings"
 )
 
 func SetCookieHandler(w http.ResponseWriter, r *http.Request, apiKey string) {
+	var minutes int = 2
 	cookie := http.Cookie{
-		Name:     "tns_cookie",
+		Name:     "tnsCookie",
 		Value:    "ApiKey " + apiKey,
 		Path:     "/",
-		MaxAge:   36000,
+		MaxAge:   minutes * 60,
 		HttpOnly: true,
-		// SameSite: http.SameSiteLaxMode,
+		SameSite: http.SameSiteLaxMode,
 		Secure:   true,
-		SameSite: http.SameSiteNoneMode,
+		// SameSite: http.SameSiteNoneMode,
 	}
 
 	// Use the http.SetCookie() function to send the cookie to the client.
@@ -23,15 +25,15 @@ func SetCookieHandler(w http.ResponseWriter, r *http.Request, apiKey string) {
 	http.SetCookie(w, &cookie)
 }
 
-func GetCookieHandler(w http.ResponseWriter, r *http.Request) error {
-	// Retrieve the cookie from the request using its name (which in our case is
-	// "exampleCookie"). If no matching cookie is found, this will return a
-	// http.ErrNoCookie error. We check for this, and return a 400 Bad Request
-	// response to the client.
-	_, err := r.Cookie("tns_cookie")
+// Checks database for users with incoming apiKey
+func GetCookieHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("cookie")
+
+	cookie, err := r.Cookie("tnsCookie")
 	if err != nil {
-		return errors.New("cookie not found")
+		RespondWithError(w, http.StatusUnauthorized, http.ErrNoCookie.Error())
+		return
 	}
 
-	return nil
+	RespondWithJSON(w, http.StatusOK, strings.Split(cookie.Value, " ")[1])
 }

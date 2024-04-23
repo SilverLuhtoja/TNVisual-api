@@ -7,7 +7,6 @@ import (
 
 	"github.com/SilverLuhtoja/TNVisual/internal/database"
 	"github.com/SilverLuhtoja/TNVisual/internal/models"
-	"github.com/google/uuid"
 )
 
 type UserProvider interface {
@@ -23,14 +22,18 @@ type CreateUserRequest struct {
 func (cfg *ApiConfig) CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 	req, err := GetParamsFromRequestBody(CreateUserRequest{}, r)
 	if err != nil {
-		RespondWithError(w, http.StatusInternalServerError, fmt.Sprint("createUserHandler - ", err))
+		RespondWithError(w, http.StatusBadRequest, fmt.Sprint("createUserHandler - ", err))
 		return
 	}
 
+	hassed_pass, err := HashPassword(req.Password)
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, fmt.Sprint("createUserHandler - ", err))
+		return
+	}
 	userParams := database.CreateUserParams{
-		ID:       uuid.New(),
 		Username: req.Username,
-		Password: req.Password,
+		Password: hassed_pass,
 	}
 
 	user, err := cfg.DB.CreateUser(r.Context(), userParams)

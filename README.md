@@ -1,3 +1,34 @@
+# BACKEND:
+
+[x] - Authentication (encrypt)
+
+[ ] - Projects
+
+    * needs deleting functionality
+[ ] - Contacts
+
+    * needs checks for validity to send email
+    * needs some spam blocker
+
+[ ] - email should go through backend for security
+
+[ ] - CI / CL (staging and production, tests)
+
+[x] - Setting up Docker
+
+[x] - Setting up authentication for DONE PROJECTS section
+
+[ ] - Authentication work as intended
+
+[x] - It is possible to add new section to DONE PROJECTS with pictures / descriptions
+
+## GOOD TO HAVE ADDITIONS
+[ ] - Monitoring ( how many people visits. how many people written via contact page [ does it need blocking also for spam ??]) 
+
+[ ] - Logging for debuging
+
+<br><br>
+
 ## DATABASE
 to kill in use port : fuser -k 8080/tcp
 
@@ -28,6 +59,8 @@ OR
 
 GENERATE SQL to GO (from root): sqlc generate
 
-LINUX POSTGRES 
+LINUX POSTGRES: 
+```
 sudo apt update
 sudo apt install postgresql postgresql-contrib
+```

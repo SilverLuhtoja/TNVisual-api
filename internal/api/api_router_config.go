@@ -1,8 +1,6 @@
 package api
 
 import (
-	"net/http"
-
 	"github.com/SilverLuhtoja/TNVisual/internal/database"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
@@ -27,7 +25,7 @@ func NewRouter(cfg *ApiConfig) *chi.Mux {
 	apiRouter.Get("/projects", cfg.GetAllProjects)
 	apiRouter.Post("/projects", cfg.middlewareAuth(cfg.CreateProjectHandler))
 
-	// apiRouter.Get("/get", GetCookieHandler) // Checking for cookies
+	apiRouter.Get("/verify", GetCookieHandler)
 
 	main_router.Mount("/", apiRouter)
 	return main_router

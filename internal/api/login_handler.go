@@ -3,8 +3,6 @@ package api
 import (
 	"fmt"
 	"net/http"
-
-	"github.com/SilverLuhtoja/TNVisual/internal/database"
 )
 
 type LoginRequestResource struct {
@@ -19,12 +17,19 @@ func (cfg *ApiConfig) LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := cfg.DB.AuthenticateUser(r.Context(), database.AuthenticateUserParams(req))
+	user, err := cfg.DB.AuthenticateUser(r.Context(), req.Username)
 	if err != nil {
+		RespondWithError(w, http.StatusBadRequest, fmt.Sprint("LoginHandler - ", err))
+		return
+	}
+
+	if !CheckPasswordHash(req.Password, user.Password) {
 		RespondWithError(w, http.StatusNotAcceptable, "Invalid login credentials ")
 		return
 	}
 
 	SetCookieHandler(w, r, user.ApiKey)
+
+	// TODO: change apikey if once set
 	RespondWithJSON(w, 200, "cookie set")
 }
