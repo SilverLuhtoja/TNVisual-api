@@ -9,8 +9,6 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
-
-	"github.com/google/uuid"
 )
 
 const createProjects = `-- name: CreateProjects :one
@@ -20,7 +18,7 @@ RETURNING id, name, content, description
 `
 
 type CreateProjectsParams struct {
-	ID          uuid.UUID
+	ID          int32
 	Name        string
 	Content     json.RawMessage
 	Description sql.NullString

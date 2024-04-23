@@ -36,7 +36,7 @@ func main() {
 		PORT = "8000"
 	}
 	db := connectToDatabase()
-	apiConfig := &api.ApiConfig{DB: database.New(db), Client: &http.Client{}}
+	apiConfig := &api.ApiConfig{DB: database.New(db)}
 	router := api.NewRouter(apiConfig)
 
 	server := &http.Server{

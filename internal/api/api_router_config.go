@@ -9,8 +9,7 @@ import (
 )
 
 type ApiConfig struct {
-	DB     *database.Queries
-	Client *http.Client
+	DB *database.Queries
 }
 
 func NewRouter(cfg *ApiConfig) *chi.Mux {

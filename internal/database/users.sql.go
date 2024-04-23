@@ -7,23 +7,15 @@ package database
 
 import (
 	"context"
-
-	"github.com/google/uuid"
 )
 
 const authenticateUser = `-- name: AuthenticateUser :one
 Select id, username, password, api_key from users
-WHERE username = $1 
-AND password = $2
+WHERE username = $1
 `
 
-type AuthenticateUserParams struct {
-	Username string
-	Password string
-}
-
-func (q *Queries) AuthenticateUser(ctx context.Context, arg AuthenticateUserParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, authenticateUser, arg.Username, arg.Password)
+func (q *Queries) AuthenticateUser(ctx context.Context, username string) (User, error) {
+	row := q.db.QueryRowContext(ctx, authenticateUser, username)
 	var i User
 	err := row.Scan(
 		&i.ID,
@@ -41,7 +33,7 @@ RETURNING id, username, password, api_key
 `
 
 type CreateUserParams struct {
-	ID       uuid.UUID
+	ID       int32
 	Username string
 	Password string
 }

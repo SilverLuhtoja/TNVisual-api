@@ -7,7 +7,6 @@ import (
 	"fmt"
 
 	"github.com/SilverLuhtoja/TNVisual/internal/database"
-	"github.com/google/uuid"
 )
 
 type ProjectImageData struct {
@@ -35,7 +34,6 @@ func ProjectToProjectEntity(domain Project) (database.CreateProjectsParams, erro
 	}
 
 	return database.CreateProjectsParams{
-		ID:          uuid.New(),
 		Name:        domain.Name,
 		Content:     contentJson,
 		Description: description,

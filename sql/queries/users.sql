@@ -4,8 +4,7 @@ WHERE api_key = $1;
 
 -- name: AuthenticateUser :one
 Select * from users
-WHERE username = $1 
-AND password = $2;
+WHERE username = $1;
 
 -- name: CreateUser :one
 INSERT INTO users (id, username, password)
