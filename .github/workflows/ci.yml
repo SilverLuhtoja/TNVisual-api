@@ -13,8 +13,9 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_USER: test
           POSTGRES_PASSWORD: test
+          POSTGRES_USER: test
+          POSTGRES_DB: test
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -39,7 +40,7 @@ jobs:
         run: ./scripts/migrateup.sh
 
       - name: Run all tests
-        run: go test ./... -cover
+        run: go test ./... -v
 
       - name: Install gosec
         run: go install github.com/securego/gosec/v2/cmd/gosec@latest
