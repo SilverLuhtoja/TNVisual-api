@@ -2,7 +2,7 @@ version: '3.9'
 services:
   tnvisual:
     container_name: tnvisual
-    image: silverl/tnvisual_backend:0.0.3
+    # image: silverl/tnvisual_backend:0.0.3
     build:
       context: .
       dockerfile: Dockerfile
