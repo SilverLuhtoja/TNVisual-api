@@ -13,8 +13,9 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_USER: test
           POSTGRES_PASSWORD: test
+          POSTGRES_USER: test
+          POSTGRES_DB: test
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
