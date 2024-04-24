@@ -66,3 +66,18 @@ func (q *Queries) GetUserByKey(ctx context.Context, apiKey string) (User, error)
 	)
 	return i, err
 }
+
+const updateUserKey = `-- name: UpdateUserKey :exec
+UPDATE users SET api_key = $2
+WHERE id = $1
+`
+
+type UpdateUserKeyParams struct {
+	ID     int32
+	ApiKey string
+}
+
+func (q *Queries) UpdateUserKey(ctx context.Context, arg UpdateUserKeyParams) error {
+	_, err := q.db.ExecContext(ctx, updateUserKey, arg.ID, arg.ApiKey)
+	return err
+}

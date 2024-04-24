@@ -23,13 +23,18 @@ func (cfg *ApiConfig) LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !CheckPasswordHash(req.Password, user.Password) {
+	if !checkPasswordHash(req.Password, user.Password) {
 		RespondWithError(w, http.StatusNotAcceptable, "Invalid login credentials ")
 		return
 	}
 
 	SetCookieHandler(w, r, user.ApiKey)
 
-	// TODO: change apikey if once set
+	err = cfg.updateUserApiKey(r.Context(), user.ID)
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, fmt.Sprint("LoginHandler - ", err))
+		return
+	}
+
 	RespondWithJSON(w, 200, "cookie set")
 }

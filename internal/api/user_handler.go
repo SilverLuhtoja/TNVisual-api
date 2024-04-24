@@ -26,7 +26,7 @@ func (cfg *ApiConfig) CreateUserHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	hassed_pass, err := HashPassword(req.Password)
+	hassed_pass, err := hashPassword(req.Password)
 	if err != nil {
 		RespondWithError(w, http.StatusInternalServerError, fmt.Sprint("createUserHandler - ", err))
 		return
@@ -44,4 +44,22 @@ func (cfg *ApiConfig) CreateUserHandler(w http.ResponseWriter, r *http.Request) 
 	}
 
 	RespondWithJSON(w, http.StatusCreated, models.DatabaseUserToUser(user))
+}
+
+func (cfg *ApiConfig) updateUserApiKey(r context.Context, id int32) error {
+	key, err := generateAPIKey()
+	if err != nil {
+		return err
+	}
+
+	err = cfg.DB.UpdateUserKey(r, database.UpdateUserKeyParams{
+		ID:     id,
+		ApiKey: key,
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

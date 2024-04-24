@@ -10,3 +10,7 @@ WHERE username = $1;
 INSERT INTO users (id, username, password)
 VALUES ($1, $2, $3)
 RETURNING *;
+
+-- name: UpdateUserKey :exec
+UPDATE users SET api_key = $2
+WHERE id = $1;

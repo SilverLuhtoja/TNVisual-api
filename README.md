@@ -18,7 +18,7 @@
 
 [x] - Setting up authentication for DONE PROJECTS section
 
-[ ] - Authentication work as intended
+[x] - Authentication work as intended
 
 [x] - It is possible to add new section to DONE PROJECTS with pictures / descriptions
 

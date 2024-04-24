@@ -1,6 +1,8 @@
 package api
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"errors"
 	"net/http"
 	"strings"
@@ -53,12 +55,21 @@ func getApiKey(header http.Header) (string, error) {
 	return splitAuth[1], nil
 }
 
-func HashPassword(password string) (string, error) {
+func hashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	return string(bytes), err
 }
 
-func CheckPasswordHash(password, hash string) bool {
+func checkPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
+}
+
+func generateAPIKey() (string, error) {
+	key := make([]byte, 16) // 16 bytes = 128 bits
+	_, err := rand.Read(key)
+	if err != nil {
+		return "", err
+	}
+	return hex.EncodeToString(key), nil
 }
