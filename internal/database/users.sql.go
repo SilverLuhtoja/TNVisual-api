@@ -27,19 +27,18 @@ func (q *Queries) AuthenticateUser(ctx context.Context, username string) (User, 
 }
 
 const createUser = `-- name: CreateUser :one
-INSERT INTO users (id, username, password)
-VALUES ($1, $2, $3)
+INSERT INTO users (username, password)
+VALUES ( $1, $2)
 RETURNING id, username, password, api_key
 `
 
 type CreateUserParams struct {
-	ID       int32
 	Username string
 	Password string
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, createUser, arg.ID, arg.Username, arg.Password)
+	row := q.db.QueryRowContext(ctx, createUser, arg.Username, arg.Password)
 	var i User
 	err := row.Scan(
 		&i.ID,

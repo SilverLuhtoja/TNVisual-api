@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/SilverLuhtoja/TNVisual/internal/database"
-	"github.com/SilverLuhtoja/TNVisual/internal/models"
 )
 
 type UserProvider interface {
@@ -18,7 +17,6 @@ type CreateUserRequest struct {
 	Password string `json:"password"`
 }
 
-// TODO:  MAKE PASSWORD ENCRYPTION
 func (cfg *ApiConfig) CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 	req, err := GetParamsFromRequestBody(CreateUserRequest{}, r)
 	if err != nil {
@@ -36,14 +34,14 @@ func (cfg *ApiConfig) CreateUserHandler(w http.ResponseWriter, r *http.Request) 
 		Password: hassed_pass,
 	}
 
-	user, err := cfg.DB.CreateUser(r.Context(), userParams)
+	_, err = cfg.DB.CreateUser(r.Context(), userParams)
 	if err != nil {
 		fmt.Println(err)
 		RespondWithError(w, http.StatusInternalServerError, fmt.Sprint("createUserHandler [couldn't create user to database] - ", err))
 		return
 	}
 
-	RespondWithJSON(w, http.StatusCreated, models.DatabaseUserToUser(user))
+	RespondWithJSON(w, http.StatusCreated, "User created successfully")
 }
 
 func (cfg *ApiConfig) updateUserApiKey(r context.Context, id int32) error {

@@ -7,8 +7,8 @@ Select * from users
 WHERE username = $1;
 
 -- name: CreateUser :one
-INSERT INTO users (id, username, password)
-VALUES ($1, $2, $3)
+INSERT INTO users (username, password)
+VALUES ($1, $2)
 RETURNING *;
 
 -- name: UpdateUserKey :exec
