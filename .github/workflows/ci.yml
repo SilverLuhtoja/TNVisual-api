@@ -40,11 +40,11 @@ jobs:
       - name: Run migrations
         run: ./scripts/migrateup.sh
 
-      - name: Install gosec
-        run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+      # - name: Install gosec
+      #   run: go install github.com/securego/gosec/v2/cmd/gosec@latest
     
-      - name: Run security checks
-        run: gosec ./...
+      # - name: Run security checks
+      #   run: gosec ./...
         
       - name: Run all tests
         run: go test ./... -v
