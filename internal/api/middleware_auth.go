@@ -14,7 +14,13 @@ type Handler func(http.ResponseWriter, *http.Request)
 
 func (cfg *ApiConfig) middlewareAuth(handler Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		_, err := getApiKey(r.Header)
+		apiKey, err := getApiKey(r.Header)
+		if err != nil {
+			RespondWithError(w, http.StatusNotAcceptable, err.Error())
+			return
+		}
+
+		_, err = cfg.DB.GetUserByKey(r.Context(), apiKey)
 		if err != nil {
 			RespondWithError(w, http.StatusUnauthorized, "Unauthorized request")
 			return
@@ -27,13 +33,13 @@ func (cfg *ApiConfig) middlewareAuth(handler Handler) http.HandlerFunc {
 func (cfg *ApiConfig) AuthenticateKeyHandler(w http.ResponseWriter, r *http.Request) {
 	apiKey, err := getApiKey(r.Header)
 	if err != nil {
-		RespondWithError(w, http.StatusUnauthorized, err.Error())
+		RespondWithError(w, http.StatusNotAcceptable, err.Error())
 		return
 	}
 
 	_, err = cfg.DB.GetUserByKey(r.Context(), apiKey)
 	if err != nil {
-		RespondWithError(w, http.StatusUnauthorized, "Couldn't get user")
+		RespondWithError(w, http.StatusUnauthorized, "Unauthorized request")
 		return
 	}
 

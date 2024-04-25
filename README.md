@@ -27,6 +27,15 @@
 
 [ ] - Logging for debuging
 
+
+## VURNABILITIES
+
+1. Every one can create a new user and login with it ( Can put specific key or remove it from code)
+
+# BEFORE LAUNCH
+
+1. api_router_config = allow only origin https:* or https://www.tnvisual.ee and https://tnvisual.ee site
+
 <br><br>
 
 ## DATABASE
