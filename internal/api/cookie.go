@@ -7,7 +7,7 @@ import (
 )
 
 func SetCookieHandler(w http.ResponseWriter, r *http.Request, apiKey string) {
-	var minutes int = 2
+	var minutes int = 15
 	cookie := http.Cookie{
 		Name:     "tnsCookie",
 		Value:    "ApiKey " + apiKey,

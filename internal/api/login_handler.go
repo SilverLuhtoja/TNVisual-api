@@ -19,7 +19,7 @@ func (cfg *ApiConfig) LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	user, err := cfg.DB.AuthenticateUser(r.Context(), req.Username)
 	if err != nil {
-		RespondWithError(w, http.StatusBadRequest, fmt.Sprint("LoginHandler - ", err))
+		RespondWithError(w, http.StatusBadRequest, fmt.Sprint("LoginHandler [auth] - ", err))
 		return
 	}
 
@@ -32,7 +32,7 @@ func (cfg *ApiConfig) LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	err = cfg.updateUserApiKey(r.Context(), user.ID)
 	if err != nil {
-		RespondWithError(w, http.StatusInternalServerError, fmt.Sprint("LoginHandler - ", err))
+		RespondWithError(w, http.StatusInternalServerError, fmt.Sprint("LoginHandler [update] - ", err))
 		return
 	}
 
