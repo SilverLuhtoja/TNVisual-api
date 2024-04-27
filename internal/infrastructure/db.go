@@ -10,11 +10,11 @@ import (
 )
 
 func NewDatabase() *database.Queries {
-	db := connectToDatabase()
+	db := ConnectToDatabase()
 	return database.New(db)
 }
 
-func connectToDatabase() *sql.DB {
+func ConnectToDatabase() *sql.DB {
 	db, err := sql.Open("postgres", dnsUrl())
 	if err != nil {
 		log.Fatalf("Couldn't connect with database: %s", err)
