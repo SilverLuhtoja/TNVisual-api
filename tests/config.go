@@ -1,15 +1,14 @@
-package test_utils
+package tests
 
 import (
 	"database/sql"
-	"encoding/json"
 	"fmt"
 	"log"
-	"net/http"
 	"strings"
 
 	"github.com/SilverLuhtoja/TNVisual/internal/api"
 	"github.com/SilverLuhtoja/TNVisual/internal/database"
+	"github.com/SilverLuhtoja/TNVisual/tests/test_utils"
 )
 
 const TEST_DATABASE_URL = "postgres://test:test@localhost:25432/test?sslmode=disable"
@@ -32,7 +31,7 @@ func ClearTable(table string) {
 // Ables to mock data in test tabase
 func InsertData(tableName string, columnNames []string, values []string) {
 	db := openDatabase()
-	query_statment := fmt.Sprintf(`INSERT INTO %s ( %s) VALUES  (%s)`, tableName, strings.Join(columnNames, ","), valuesToSql(values))
+	query_statment := fmt.Sprintf(`INSERT INTO %s ( %s) VALUES  (%s)`, tableName, strings.Join(columnNames, ","), test_utils.ValuesToSql(values))
 
 	stmt, err := db.Prepare(query_statment)
 	if err != nil {
@@ -44,18 +43,6 @@ func InsertData(tableName string, columnNames []string, values []string) {
 		log.Fatal(err)
 	}
 	stmt.Close()
-}
-
-func GetParamsFromResponseBody[T interface{}](structBody T, r *http.Response) T {
-	decoder := json.NewDecoder(r.Body)
-
-	params := structBody
-	err := decoder.Decode(&params)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return params
 }
 
 func openDatabase() *sql.DB {
@@ -70,12 +57,4 @@ func openDatabase() *sql.DB {
 	}
 
 	return db
-}
-
-func valuesToSql(values []string) string {
-	var vals string
-	for _, val := range values {
-		vals += fmt.Sprintf("'%s',", val)
-	}
-	return vals[:len(vals)-1]
 }

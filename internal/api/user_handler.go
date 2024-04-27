@@ -29,6 +29,7 @@ func (cfg *ApiConfig) CreateUserHandler(w http.ResponseWriter, r *http.Request) 
 		RespondWithError(w, http.StatusInternalServerError, fmt.Sprint("createUserHandler - ", err))
 		return
 	}
+
 	userParams := database.CreateUserParams{
 		Username: req.Username,
 		Password: hassed_pass,
@@ -36,7 +37,6 @@ func (cfg *ApiConfig) CreateUserHandler(w http.ResponseWriter, r *http.Request) 
 
 	_, err = cfg.DB.CreateUser(r.Context(), userParams)
 	if err != nil {
-		fmt.Println(err)
 		RespondWithError(w, http.StatusInternalServerError, fmt.Sprint("createUserHandler [couldn't create user to database] - ", err))
 		return
 	}
