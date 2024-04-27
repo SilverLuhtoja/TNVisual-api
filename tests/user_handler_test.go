@@ -1,4 +1,4 @@
-package api_test
+package tests
 
 import (
 	"bytes"
@@ -10,14 +10,12 @@ import (
 	"testing"
 
 	"github.com/SilverLuhtoja/TNVisual/internal/api"
-	"github.com/SilverLuhtoja/TNVisual/internal/models"
-	"github.com/SilverLuhtoja/TNVisual/internal/test_utils"
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestCreateUserHandler(t *testing.T) {
-	config := test_utils.CreateTestConfig()
+	config := CreateTestConfig()
 	server := httptest.NewServer(http.HandlerFunc(config.CreateUserHandler))
 
 	var USERNAME string = "karu"
@@ -38,13 +36,11 @@ func TestCreateUserHandler(t *testing.T) {
 		}
 		defer resp.Body.Close()
 
-		responseBody := test_utils.GetParamsFromResponseBody(models.User{}, resp)
-
 		// ASSERT
 		assert.Equal(t, 201, resp.StatusCode)
-		assert.Equal(t, responseBody.Username, USERNAME)
+		assert.Equal(t, `"User created successfully"`, getBodyString(t, resp))
 
-		test_utils.ClearTable("users")
+		ClearTable("users")
 	})
 
 	t.Run("Throws decoding error when bad request body", func(t *testing.T) {
@@ -64,7 +60,7 @@ func TestCreateUserHandler(t *testing.T) {
 			Username: USERNAME,
 			Password: PASSWORD,
 		}
-		test_utils.InsertData("users", []string{"username", "password"}, []string{USERNAME, PASSWORD})
+		InsertData("users", []string{"username", "password"}, []string{USERNAME, PASSWORD})
 
 		// ACT
 		bodyReq, _ := json.Marshal(params)
@@ -78,7 +74,7 @@ func TestCreateUserHandler(t *testing.T) {
 		assert.Equal(t, 500, resp.StatusCode)
 		assert.Contains(t, strings.Split(getBodyString(t, resp), " "), "duplicate")
 
-		test_utils.ClearTable("users")
+		ClearTable("users")
 	})
 
 }
