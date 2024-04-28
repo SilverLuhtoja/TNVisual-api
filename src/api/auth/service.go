@@ -24,12 +24,12 @@ func (inter AuthInteractor) Process(w http.ResponseWriter, params resources.Logi
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
-	SetCookieHandler(w, user.ApiKey)
-	err = inter.updateUserApiKey(user.ID)
+	key, err := inter.updateUserApiKey(user.ID)
 	if err != nil {
 		return http.StatusInternalServerError, common.NewError("Process [updateKey] ", err)
 	}
 
+	SetCookieHandler(w, key)
 	return http.StatusOK, nil
 }
 
@@ -62,13 +62,13 @@ func (inter AuthInteractor) authenticate(params resources.LoginRequestResource) 
 	return user, nil
 }
 
-func (inter AuthInteractor) updateUserApiKey(id int32) error {
+func (inter AuthInteractor) updateUserApiKey(id int32) (string, error) {
 	key, err := generateAPIKey()
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	return inter.LoginRepositry.UpdateUserApiKey(id, key)
+	return key, inter.LoginRepositry.UpdateUserApiKey(id, key)
 }
 
 func checkPasswordHash(password, hash string) bool {

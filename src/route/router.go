@@ -22,7 +22,7 @@ func NewRouter(controllers *Controllers) *chi.Mux {
 	// apiRouter.Post("/auth", controllers.AuthController.Authenticate)
 
 	apiRouter.Get("/projects", controllers.ProjectController.GetProjects)
-	apiRouter.Post("/projects", middleware.Authenticate(controllers.ProjectController.Create))
+	apiRouter.Post("/projects", middleware.Authenticate(controllers.ProjectController.CreateProjects))
 
 	apiRouter.Get("/verify", controllers.AuthController.VerifyKey)
 

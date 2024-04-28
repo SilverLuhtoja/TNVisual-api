@@ -12,25 +12,19 @@ import (
 )
 
 const createProjects = `-- name: CreateProjects :one
-INSERT INTO projects (id, name, content, description)
-VALUES ($1, $2, $3, $4)
+INSERT INTO projects (name, content, description)
+VALUES ($1, $2, $3)
 RETURNING id, name, content, description
 `
 
 type CreateProjectsParams struct {
-	ID          int32
 	Name        string
 	Content     json.RawMessage
 	Description sql.NullString
 }
 
 func (q *Queries) CreateProjects(ctx context.Context, arg CreateProjectsParams) (Project, error) {
-	row := q.db.QueryRowContext(ctx, createProjects,
-		arg.ID,
-		arg.Name,
-		arg.Content,
-		arg.Description,
-	)
+	row := q.db.QueryRowContext(ctx, createProjects, arg.Name, arg.Content, arg.Description)
 	var i Project
 	err := row.Scan(
 		&i.ID,

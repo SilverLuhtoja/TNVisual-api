@@ -33,7 +33,6 @@ func (controller *AuthController) Login(w http.ResponseWriter, r *http.Request) 
 	common.RespondWithJSON(w, httpStatus, nil)
 }
 
-// Checks database for users with incoming apiKey
 func (controller *AuthController) VerifyKey(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("tnsCookie")
 	if err != nil {

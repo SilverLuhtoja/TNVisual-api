@@ -6,8 +6,8 @@ WHERE name = $1;
 Select * from projects;
 
 -- name: CreateProjects :one
-INSERT INTO projects (id, name, content, description)
-VALUES ($1, $2, $3, $4)
+INSERT INTO projects (name, content, description)
+VALUES ($1, $2, $3)
 RETURNING *;
 
 -- name: DeleteProject :exec
