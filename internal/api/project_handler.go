@@ -17,7 +17,6 @@ func (cfg *ApiConfig) GetAllProjects(w http.ResponseWriter, r *http.Request) {
 
 	domainProjects, err := models.AllDatabaseProjectsToProjects(dbProjects)
 	if err != nil {
-		fmt.Println(err)
 		RespondWithError(w, http.StatusInternalServerError, fmt.Sprint("GetAllProjects mapping error [EntityToDomain] - ", err))
 		return
 	}

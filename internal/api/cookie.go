@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 )
@@ -26,8 +25,6 @@ func SetCookieHandler(w http.ResponseWriter, r *http.Request, apiKey string) {
 }
 
 func GetCookieHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("cookie")
-
 	cookie, err := r.Cookie("tnsCookie")
 	if err != nil {
 		RespondWithError(w, http.StatusUnauthorized, http.ErrNoCookie.Error())

@@ -27,7 +27,9 @@ func GetParamsFromRequestBody[T interface{}](structBody T, r *http.Request) (T, 
 	decoder := json.NewDecoder(r.Body)
 	params := structBody
 	err := decoder.Decode(&params)
-
+	if err != nil {
+		return structBody, NewError("decoding error", err)
+	}
 	return params, err
 }
 
