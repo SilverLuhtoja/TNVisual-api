@@ -3,8 +3,8 @@ package route
 import (
 	"net/http"
 
-	"github.com/SilverLuhtoja/TNVisual/src/api/middleware"
-	"github.com/SilverLuhtoja/TNVisual/src/common"
+	"github.com/SilverLuhtoja/TNVisual/internal/api/middleware"
+	"github.com/SilverLuhtoja/TNVisual/internal/common"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
 )

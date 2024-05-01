@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/SilverLuhtoja/TNVisual/src/route"
+	"github.com/SilverLuhtoja/TNVisual/internal/route"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq" // this allows to connect to postgres database
 )
@@ -30,25 +30,3 @@ func main() {
 	log.Printf("Server  running on: http://localhost%s/\n", server.Addr)
 	log.Fatal(server.ListenAndServe())
 }
-
-// OLD SETUP
-
-// func main() {
-// 	godotenv.Load(".env")
-// 	PORT := os.Getenv("PORT")
-// 	if PORT == "" {
-// 		log.Printf("PORT NOT SET")
-// 		PORT = "8000"
-// 	}
-// 	apiConfig := &api.ApiConfig{DB: infrastructure.NewDatabase()}
-// 	router := api.NewRouter(apiConfig)
-
-// 	server := &http.Server{
-// 		Addr:        ":" + PORT,
-// 		Handler:     router,
-// 		ReadTimeout: 5 * time.Second,
-// 	}
-
-// 	log.Printf("Server  running on: http://localhost%s/\n", server.Addr)
-// 	log.Fatal(server.ListenAndServe())
-// }

@@ -5,9 +5,9 @@ import (
 	"encoding/hex"
 	"net/http"
 
+	"github.com/SilverLuhtoja/TNVisual/internal/api/auth/resources"
+	"github.com/SilverLuhtoja/TNVisual/internal/common"
 	"github.com/SilverLuhtoja/TNVisual/internal/database"
-	"github.com/SilverLuhtoja/TNVisual/src/api/auth/resources"
-	"github.com/SilverLuhtoja/TNVisual/src/common"
 	"golang.org/x/crypto/bcrypt"
 )
 

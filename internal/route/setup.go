@@ -1,11 +1,11 @@
 package route
 
 import (
+	"github.com/SilverLuhtoja/TNVisual/internal/api/auth"
+	"github.com/SilverLuhtoja/TNVisual/internal/api/project"
+	"github.com/SilverLuhtoja/TNVisual/internal/api/user"
 	"github.com/SilverLuhtoja/TNVisual/internal/database"
 	"github.com/SilverLuhtoja/TNVisual/internal/infrastructure"
-	"github.com/SilverLuhtoja/TNVisual/src/api/auth"
-	"github.com/SilverLuhtoja/TNVisual/src/api/project"
-	"github.com/SilverLuhtoja/TNVisual/src/api/user"
 )
 
 type Controllers struct {

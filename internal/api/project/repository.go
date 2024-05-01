@@ -3,8 +3,8 @@ package project
 import (
 	"context"
 
+	"github.com/SilverLuhtoja/TNVisual/internal/common"
 	"github.com/SilverLuhtoja/TNVisual/internal/database"
-	"github.com/SilverLuhtoja/TNVisual/src/common"
 )
 
 type ProjectRepositry interface {

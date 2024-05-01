@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/SilverLuhtoja/TNVisual/src/api/auth/resources"
-	"github.com/SilverLuhtoja/TNVisual/src/common"
+	"github.com/SilverLuhtoja/TNVisual/internal/api/auth/resources"
+	"github.com/SilverLuhtoja/TNVisual/internal/common"
 )
 
 type AuthController struct {

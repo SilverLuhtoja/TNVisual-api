@@ -1,8 +1,8 @@
 package project
 
 import (
-	resource "github.com/SilverLuhtoja/TNVisual/src/api/project/resources"
-	"github.com/SilverLuhtoja/TNVisual/src/common"
+	resource "github.com/SilverLuhtoja/TNVisual/internal/api/project/resources"
+	"github.com/SilverLuhtoja/TNVisual/internal/common"
 )
 
 type ProjectInteractor struct {

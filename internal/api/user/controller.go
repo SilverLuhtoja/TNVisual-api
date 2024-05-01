@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/SilverLuhtoja/TNVisual/src/api/user/resources"
-	"github.com/SilverLuhtoja/TNVisual/src/common"
+	"github.com/SilverLuhtoja/TNVisual/internal/api/user/resources"
+	"github.com/SilverLuhtoja/TNVisual/internal/common"
 )
 
 type UserController struct {

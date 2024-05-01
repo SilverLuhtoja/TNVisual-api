@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	resource "github.com/SilverLuhtoja/TNVisual/src/api/project/resources"
-	"github.com/SilverLuhtoja/TNVisual/src/common"
+	resource "github.com/SilverLuhtoja/TNVisual/internal/api/project/resources"
+	"github.com/SilverLuhtoja/TNVisual/internal/common"
 )
 
 type ProjectController struct {

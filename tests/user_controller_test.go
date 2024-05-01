@@ -7,9 +7,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/SilverLuhtoja/TNVisual/internal/api"
-	"github.com/SilverLuhtoja/TNVisual/src/api/user"
-	resource "github.com/SilverLuhtoja/TNVisual/src/api/user/resources"
+	"github.com/SilverLuhtoja/TNVisual/internal/api/user"
+	"github.com/SilverLuhtoja/TNVisual/internal/api/user/resources"
 	"github.com/SilverLuhtoja/TNVisual/tests/test_utils"
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
@@ -56,14 +55,11 @@ func TestUserControllerIntegration(t *testing.T) {
 
 	t.Run("Throws duplicate error when username already present", func(t *testing.T) {
 		// ARRANGE
-		var params api.CreateUserRequest = api.CreateUserRequest{
-			Username: USERNAME,
-			Password: PASSWORD,
-		}
+		requestParams := getCreateUserRequest(USERNAME, PASSWORD)
 		InsertData("users", []string{"username", "password"}, []string{USERNAME, PASSWORD})
 
 		// ACT
-		bodyReq, _ := json.Marshal(params)
+		bodyReq, _ := json.Marshal(requestParams)
 		resp, err := http.Post(server.URL, "", bytes.NewBuffer(bodyReq))
 		if err != nil {
 			t.Error(err)
@@ -79,8 +75,8 @@ func TestUserControllerIntegration(t *testing.T) {
 
 }
 
-func getCreateUserRequest(USERNAME, PASSWORD string) resource.CreateUserRequest {
-	return resource.CreateUserRequest{
+func getCreateUserRequest(USERNAME, PASSWORD string) resources.CreateUserRequest {
+	return resources.CreateUserRequest{
 		Username: USERNAME,
 		Password: PASSWORD,
 	}

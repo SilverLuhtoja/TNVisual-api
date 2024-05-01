@@ -1,9 +1,9 @@
 package user
 
 import (
+	"github.com/SilverLuhtoja/TNVisual/internal/api/user/resources"
+	"github.com/SilverLuhtoja/TNVisual/internal/common"
 	"github.com/SilverLuhtoja/TNVisual/internal/database"
-	"github.com/SilverLuhtoja/TNVisual/src/api/user/resources"
-	"github.com/SilverLuhtoja/TNVisual/src/common"
 	"golang.org/x/crypto/bcrypt"
 )
 

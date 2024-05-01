@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/SilverLuhtoja/TNVisual/internal/common"
 	"github.com/SilverLuhtoja/TNVisual/internal/infrastructure"
-	"github.com/SilverLuhtoja/TNVisual/src/common"
 )
 
 type Handler func(http.ResponseWriter, *http.Request)
