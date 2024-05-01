@@ -2,3 +2,4 @@ migrate.sh
 .env
 /database
 Makefile
+/bin

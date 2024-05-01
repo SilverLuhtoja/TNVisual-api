@@ -1,10 +1,8 @@
-package api
+package common
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
-	"log"
 	"net/http"
 )
 
@@ -27,22 +25,14 @@ func RespondWithError(w http.ResponseWriter, code int, err string) {
 
 func GetParamsFromRequestBody[T interface{}](structBody T, r *http.Request) (T, error) {
 	decoder := json.NewDecoder(r.Body)
-
 	params := structBody
 	err := decoder.Decode(&params)
 	if err != nil {
-		return structBody, errors.New("couldn't decode parameters")
+		return structBody, NewError("decoding error", err)
 	}
-
-	return params, nil
+	return params, err
 }
 
-func ReadinessHandler(w http.ResponseWriter, r *http.Request) {
-	log.Printf("HEALTH CHECK REQUEST")
-	res := map[string]string{"status": "ok"}
-	RespondWithJSON(w, 200, res)
-}
-
-func ErrHandler(w http.ResponseWriter, r *http.Request) {
-	RespondWithError(w, 500, "Internal Server Error")
+func NewError(s string, err error) error {
+	return fmt.Errorf("%s - %s", s, err.Error())
 }

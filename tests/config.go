@@ -6,16 +6,14 @@ import (
 	"log"
 	"strings"
 
-	"github.com/SilverLuhtoja/TNVisual/internal/api"
 	"github.com/SilverLuhtoja/TNVisual/internal/database"
 	"github.com/SilverLuhtoja/TNVisual/tests/test_utils"
 )
 
 const TEST_DATABASE_URL = "postgres://test:test@localhost:25432/test?sslmode=disable"
 
-func CreateTestConfig() *api.ApiConfig {
-	db := openDatabase()
-	return &api.ApiConfig{DB: database.New(db)}
+func GetDatabaseQueries() *database.Queries {
+	return database.New(openDatabase())
 }
 
 // Will help to clean database after each testcase

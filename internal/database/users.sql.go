@@ -28,7 +28,7 @@ func (q *Queries) AuthenticateUser(ctx context.Context, username string) (User, 
 
 const createUser = `-- name: CreateUser :one
 INSERT INTO users (username, password)
-VALUES ( $1, $2)
+VALUES ($1, $2)
 RETURNING id, username, password, api_key
 `
 

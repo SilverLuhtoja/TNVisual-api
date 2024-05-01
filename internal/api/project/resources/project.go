@@ -1,4 +1,4 @@
-package models
+package resource
 
 import (
 	"database/sql"
@@ -37,20 +37,6 @@ func ProjectToProjectEntity(domain Project) (database.CreateProjectsParams, erro
 		Name:        domain.Name,
 		Content:     contentJson,
 		Description: description,
-	}, nil
-}
-
-func DatabaseProjectToProject(project database.Project) (Project, error) {
-	content := []ProjectImageData{}
-	err := json.Unmarshal(project.Content, &content)
-	if err != nil {
-		return Project{}, errors.New(fmt.Sprint("Error with json unmarshaling: ", err.Error()))
-	}
-
-	return Project{
-		Name:        project.Name,
-		Content:     content,
-		Description: &project.Description.String,
 	}, nil
 }
 

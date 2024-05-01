@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
+	"testing"
 )
 
 func ValuesToSql(values []string) string {
@@ -26,4 +28,12 @@ func GetParamsFromResponseBody[T interface{}](structBody T, r *http.Response) T 
 	}
 
 	return params
+}
+
+func GetBodyString(t *testing.T, resp *http.Response) string {
+	b, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Error(err)
+	}
+	return string(b)
 }
